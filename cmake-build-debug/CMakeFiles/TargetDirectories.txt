@@ -1,0 +1,3 @@
+C:/Users/IamZh/Desktop/Code_Project/APARControllerSlave/cmake-build-debug/CMakeFiles/APARControllerSlave.elf.dir
+C:/Users/IamZh/Desktop/Code_Project/APARControllerSlave/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/IamZh/Desktop/Code_Project/APARControllerSlave/cmake-build-debug/CMakeFiles/rebuild_cache.dir
