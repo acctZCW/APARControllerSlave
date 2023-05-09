@@ -24,6 +24,8 @@ typedef enum{
     EVENT_PROCESS
 } Event;
 
+typedef int (*ExecFn)(const u8* content, u16 len);
+
 u8 recvHandler();
 
 u8 parseHandler();
@@ -33,6 +35,8 @@ u8 parseErrorHandler();
 u8 execHandler();
 
 u8 execErrorHandler();
+
+u8 registerExecFn(ExecFn fn, u8 type);
 
 
 #endif //APARCONTROLLERSLAVE_BSP_HANDLER_H

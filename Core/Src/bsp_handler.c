@@ -3,11 +3,21 @@
 //
 
 #include <memory.h>
+#include "dma.h"
+#include "usart.h"
+
 #include "bsp_handler.h"
 #include "bsp_protocol.h"
 #include "bsp_mempool.h"
-#include "dma.h"
-#include "usart.h"
+
+
+ExecFn execFns[128];
+
+u8 registerExecFn(ExecFn fn, u8 type){
+    if(type > 127 || fn == NULL) return 0;
+    execFns[type] = fn;
+    return 1;
+}
 
 u8 recvHandler(){
     return STATE_PARSE;
@@ -25,6 +35,10 @@ u8 parseHandler(){
 
 u8 execHandler(){
     HAL_UART_Transmit(&huart1,g_frame.content,g_frame.len,100);
+    // How to dispatch commands to different functions?
+    // do this
+    ExecFn fn = execFns[g_frame.type];
+    fn(g_frame.content,g_frame.len);
     return STATE_IDLE;
 }
 

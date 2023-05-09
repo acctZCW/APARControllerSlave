@@ -8,8 +8,13 @@
 #include "bsp_types.h"
 #include "bsp_pe44820.h"
 
-int inputPE44820(const u8* command, uint16_t len, PE44820TypeDef* pe44820s, uint16_t device_num);
+typedef enum{
+    INPUT_PE44820 = 0,
+    INPUT_PE43703
+}FrameType;
 
-int inputPE43703(const u8* command);
+int inputPE44820(const u8* command, u16 len);
+
+int inputPE43703(const u8* command, u16 len);
 
 #endif //APARCONTROLLERSLAVE_BSP_EXECUTIONS_H

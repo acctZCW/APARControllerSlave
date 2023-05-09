@@ -7,6 +7,9 @@
 
 #include "main.h"
 
+#define PE44820_NUM 8
+
+
 typedef struct{
     GPIO_TypeDef * siPort;
     uint16_t siPin;
@@ -15,6 +18,8 @@ typedef struct{
     GPIO_TypeDef * lePort;
     uint16_t lePin;
 } PE44820TypeDef;
+
+extern PE44820TypeDef hal_pe44820s[PE44820_NUM];
 
 int writePE44820(PE44820TypeDef unit, uint8_t data);
 

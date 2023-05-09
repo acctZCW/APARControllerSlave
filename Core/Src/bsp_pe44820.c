@@ -4,10 +4,48 @@
 
 #include "bsp_pe44820.h"
 
-PE44820TypeDef pe44820_test_unit = {
-        GPIOC,3,
-        GPIOD,4,
-        GPIOE,5
+
+PE44820TypeDef hal_pe44820s[PE44820_NUM] = {
+        { // unit 1
+                GPIOB,14,
+                GPIOB,15,
+                GPIOB,12
+        },
+        { // unit 2
+                GPIOB,14,
+                GPIOB,15,
+                GPIOB,13
+        },
+        { // unit 3
+                GPIOB,14,
+                GPIOB,15,
+                GPIOE,14
+        },
+        { // unit 4
+                GPIOB,14,
+                GPIOB,15,
+                GPIOE,15
+        },
+        { // unit 5
+                GPIOB,14,
+                GPIOB,15,
+                GPIOE,12
+        },
+        { // unit 6
+                GPIOB,14,
+                GPIOB,15,
+                GPIOE,13
+        },
+        { // unit 7
+                GPIOB,14,
+                GPIOB,15,
+                GPIOE,10
+        },
+        { // unit 8
+                GPIOB,14,
+                GPIOB,15,
+                GPIOE,11
+        }
 };
 
 int writePE44820(PE44820TypeDef unit, uint8_t data){

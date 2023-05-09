@@ -27,6 +27,7 @@
 #include <memory.h>
 #include "bsp_mempool.h"
 #include "bsp_handler.h"
+#include "bsp_executions.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -77,15 +78,23 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+
+    /* fsm initialize */
     fsmInit(&g_fsm); // init the fsm
     g_fsm.state = STATE_IDLE;
-    // register the event functions
+
+    memset(g_recvBuffer,0,1024*sizeof(uint8_t));
+
+    /* register fsm event functions*/
     fsmEventRegister(&g_fsm,recvHandler,STATE_IDLE,EVENT_PROCESS);
     fsmEventRegister(&g_fsm,parseHandler,STATE_PARSE,EVENT_PROCESS);
     fsmEventRegister(&g_fsm,execHandler,STATE_EXEC,EVENT_PROCESS);
     fsmEventRegister(&g_fsm,parseErrorHandler,STATE_PARSE,EVENT_FAILED);
     fsmEventRegister(&g_fsm,execErrorHandler,STATE_EXEC,EVENT_FAILED);
-    memset(g_recvBuffer,0,1024*sizeof(uint8_t)); // init the received buffer
+
+    /* register fsm exec functions */
+    registerExecFn(inputPE44820,INPUT_PE44820);
+    registerExecFn(inputPE43703,INPUT_PE43703);
   /* USER CODE END Init */
 
   /* Configure the system clock */
