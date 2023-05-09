@@ -175,7 +175,11 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_Delay_Us(uint16_t time){
+    HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000000);
+    HAL_Delay(time - 1);
+    HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+}
 /* USER CODE END 4 */
 
 /**

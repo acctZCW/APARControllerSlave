@@ -1,0 +1,21 @@
+//
+// Created by IamZh on 2023/5/9.
+//
+
+#ifndef APARCONTROLLERSLAVE_BSP_PE44820_H
+#define APARCONTROLLERSLAVE_BSP_PE44820_H
+
+#include "main.h"
+
+typedef struct{
+    GPIO_TypeDef * siPort;
+    uint16_t siPin;
+    GPIO_TypeDef * clkPort;
+    uint16_t clkPin;
+    GPIO_TypeDef * lePort;
+    uint16_t lePin;
+} PE44820TypeDef;
+
+int writePE44820(PE44820TypeDef unit, uint8_t data);
+
+#endif //APARCONTROLLERSLAVE_BSP_PE44820_H

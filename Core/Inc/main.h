@@ -53,7 +53,12 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+/**
+ * @brief us delay function, using rcc system tick.
+ * @note Can not be used in interrupt!
+ * @param time ex: 1000 for 1000 us
+ */
+void HAL_Delay_Us(uint16_t time);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
