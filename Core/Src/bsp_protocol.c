@@ -20,6 +20,8 @@ int parseFrame(const u8* frame_bytes, FrameTypeDef* frame){
     frame->verified = *(frame_bytes + 5 + frame->len); // get verified code
     u8 crc_code = crc8_maxim(frame_bytes+2, frame->len + 3);
     if(crc_code != frame->verified) return 0;
+    u8 tail = 'T';
+    if(memcmp(frame_bytes+6+frame->len,&tail,1) != 0) return 0;
     return 1;
 }
 
