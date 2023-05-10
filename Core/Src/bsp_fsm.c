@@ -5,6 +5,15 @@
 #include <memory.h>
 #include "bsp_fsm.h"
 
+/* private definition */
+/**
+ * trans the state of fsm.
+ * @param fsm finite state machine
+ * @param next_state next state
+*/
+void fsmStateTrans(FsmTypeDef* fsm, u8 next_state);
+
+
 int fsmInit(FsmTypeDef* fsm){
     memset(fsm->eventFns,0,STATE_NUM*EVENT_NUM*sizeof(EventFn));
     fsm->state = 0;

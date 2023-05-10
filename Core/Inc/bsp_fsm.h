@@ -15,6 +15,10 @@
 */
 typedef u8 (*EventFn)();
 
+/**
+ * @brief type definition of fsm.
+ * @details define the fsm type, include state and eventFns table.
+ */
 typedef struct{
     u8 state;
     EventFn eventFns[STATE_NUM][EVENT_NUM];
@@ -26,6 +30,12 @@ typedef struct{
  * ---------------------------------------------------
 */
 
+
+/**
+ * initialized the fsm.
+ * @param fsm pointer of the fsm.
+ * @return
+ */
 int fsmInit(FsmTypeDef* fsm);
 
 /**
@@ -34,13 +44,6 @@ int fsmInit(FsmTypeDef* fsm);
  * @param event event id
 */
 int fsmEventHandle(FsmTypeDef* fsm, u8 event);
-
-/**
- * trans the state of fsm.
- * @param fsm finite state machine
- * @param next_state next state
-*/
-void fsmStateTrans(FsmTypeDef* fsm, u8 next_state);
 
 
 /**
