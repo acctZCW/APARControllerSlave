@@ -34,7 +34,6 @@ u8 parseHandler(){
 }
 
 u8 execHandler(){
-    HAL_UART_Transmit(&huart1,g_frame.content,g_frame.len,100);
     // How to dispatch commands to different functions?
     // do this
     ExecFn fn = execFns[g_frame.type];
