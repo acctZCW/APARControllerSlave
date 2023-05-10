@@ -8,9 +8,13 @@
 #include "bsp_types.h"
 
 /* CONSTANTS */
-#define FRAME_MAXLEN 512 // the maximum length of frame.
+#define FRAME_MAXLEN 512 /*!< the maximum length of frame.*/
 
 
+/**
+ * @brief The Frame Type Definition
+ * @details members: frame type, content length, content bytes, verified code
+ */
 typedef struct
 {
     u8 type;
