@@ -31,4 +31,6 @@ int inputPE44820(const u8* command, u16 len);
  */
 int inputPE43703(const u8* command, u16 len);
 
+int inputPE44820WithSpi(const u8* command, u16 len);
+
 #endif //APARCONTROLLERSLAVE_BSP_EXECUTIONS_H

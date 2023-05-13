@@ -23,4 +23,6 @@ extern PE44820TypeDef hal_pe44820s[PE44820_NUM];
 
 int writePE44820(PE44820TypeDef unit, uint8_t data);
 
+int writePE44820WithSpi(PE44820TypeDef unit, uint8_t data, uint8_t addr);
+
 #endif //APARCONTROLLERSLAVE_BSP_PE44820_H
