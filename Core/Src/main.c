@@ -96,6 +96,8 @@ int main(void)
     /* register fsm exec functions */
     registerExecFn(inputPE44820,INPUT_PE44820);
     registerExecFn(inputPE43703,INPUT_PE43703);
+    registerExecFn(inputPE44820WithSpi,INPUT_PE44820_SPI);
+    registerExecFn(inputPE43703WithSpi,INPUT_PE43703_SPI);
   /* USER CODE END Init */
 
   /* Configure the system clock */

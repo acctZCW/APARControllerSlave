@@ -7,44 +7,44 @@
 
 PE44820TypeDef hal_pe44820s[PE44820_NUM] = {
         { // unit 1
-                GPIOB,14,
-                GPIOB,15,
-                GPIOB,12
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOB,GPIO_PIN_12
         },
         { // unit 2
-                GPIOB,14,
-                GPIOB,15,
-                GPIOB,13
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOB,GPIO_PIN_13
         },
         { // unit 3
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,14
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_14
         },
         { // unit 4
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,15
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_15
         },
         { // unit 5
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,12
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_12
         },
         { // unit 6
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,13
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_13
         },
         { // unit 7
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,10
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_10
         },
         { // unit 8
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,11
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_11
         }
 };
 
@@ -64,6 +64,7 @@ int writePE44820(PE44820TypeDef unit, uint8_t data){
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_RESET);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
         HAL_Delay_Us(5);
+//        HAL_Delay(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
     }
 
@@ -89,7 +90,7 @@ int writePE44820(PE44820TypeDef unit, uint8_t data){
     return 1;
 }
 
-int writePE44820WithSPi(PE44820TypeDef unit, uint8_t data, uint8_t addr){
+int writePE44820WithSpi(PE44820TypeDef unit, uint8_t data, uint8_t addr){
     data = data & 0xFF;
 
     HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
@@ -102,6 +103,7 @@ int writePE44820WithSPi(PE44820TypeDef unit, uint8_t data, uint8_t addr){
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_SET);
         else
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_RESET);
+        HAL_Delay_Us(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
         HAL_Delay_Us(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
@@ -114,12 +116,14 @@ int writePE44820WithSPi(PE44820TypeDef unit, uint8_t data, uint8_t addr){
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_SET);
         else
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_RESET);
+        HAL_Delay_Us(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
         HAL_Delay_Us(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
     }
 
-    // turn off
+
+    // latch enable
     HAL_GPIO_WritePin(unit.lePort,unit.lePin,GPIO_PIN_SET);
     HAL_Delay_Us(10);
     HAL_GPIO_WritePin(unit.lePort,unit.lePin,GPIO_PIN_RESET);

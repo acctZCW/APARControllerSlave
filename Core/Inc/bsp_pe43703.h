@@ -18,7 +18,7 @@ typedef struct{
     uint16_t lePin;
 } PE43703TypeDef;
 
-extern PE43703TypeDef hal_pe44820s[PE43703_NUM];
+extern PE43703TypeDef hal_pe43703s[PE43703_NUM];
 
 int writePE43703(PE43703TypeDef unit, uint8_t data);
 
