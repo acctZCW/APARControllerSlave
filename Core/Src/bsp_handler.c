@@ -25,7 +25,11 @@ u8 recvHandler(){
 
 u8 parseHandler(){
     if(parseFrame(g_recvBuffer,&g_frame)){
+        // request for next frame.
+        // code: 1
         memset(g_recvBuffer,0,BUFFER_SIZE);
+        HAL_UART_Receive_DMA(&huart1,g_recvBuffer,BUFFER_SIZE);
+        HAL_UART_Transmit(&huart1,(u8*)1,1,100);
         return STATE_EXEC;
     } else{
         memset(g_recvBuffer,0,BUFFER_SIZE);
@@ -37,16 +41,24 @@ u8 execHandler(){
     // How to dispatch commands to different functions?
     // do this
     ExecFn fn = execFns[g_frame.type];
-    fn(g_frame.content,g_frame.len);
-    return STATE_IDLE;
+    if(fn(g_frame.content,g_frame.len)) {
+        HAL_UART_Transmit(&huart1,(u8*)2,1,100);
+        return STATE_IDLE;
+    }
+    return STATE_EXEC_ERROR;
 }
 
 u8 parseErrorHandler(){
     // request for resend.
-    HAL_UART_Transmit(&huart1,(u8*)1,1,100);
+    // code: 128
+    HAL_UART_Receive_DMA(&huart1,g_recvBuffer,BUFFER_SIZE);
+    HAL_UART_Transmit(&huart1,(u8*)128,1,100);
     return STATE_IDLE;
 }
 
 u8 execErrorHandler(){
+    // exec error occurred.
+    // code: 129
+    HAL_UART_Transmit(&huart1,(u8*)129,1,100);
     return STATE_IDLE;
 }

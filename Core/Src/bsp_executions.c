@@ -35,9 +35,9 @@ int inputPE44820WithSpi(const u8* command, u16 len){
         addr = command[2*i];
         data = command[2*i+1];
         /* for test. */
-        u8 send_str[20];
-        sprintf(send_str,"addr: %d, data: %d\n",addr, data);
-        HAL_UART_Transmit(&huart1,send_str,20,100);
+//        u8 send_str[20];
+//        sprintf(send_str,"addr: %d, data: %d\n",addr, data);
+//        HAL_UART_Transmit(&huart1,send_str,20,100);
         /* test end. */
         writePE44820WithSpi(hal_pe44820s[addr],data,addr);
     }
@@ -52,9 +52,9 @@ int inputPE43703WithSpi(const u8* command, u16 len){
         addr = command[2*i];
         data = command[2*i+1];
         /* for test. */
-        u8 send_str[20];
-        sprintf(send_str,"addr: %d, data: %d\n",addr, data);
-        HAL_UART_Transmit(&huart1,send_str,20,100);
+//        u8 send_str[20];
+//        sprintf(send_str,"addr: %d, data: %d\n",addr, data);
+//        HAL_UART_Transmit(&huart1,send_str,20,100);
         /* test end. */
         writePE43703WithSpi(hal_pe43703s[addr],data,addr);
     }

@@ -133,7 +133,6 @@ int main(void)
               break;
           case STATE_PARSE:
               fsmEventHandle(&g_fsm,EVENT_PROCESS);
-              HAL_UART_Receive_DMA(&huart1,g_recvBuffer,BUFFER_SIZE);
               break;
           case STATE_EXEC:
               fsmEventHandle(&g_fsm,EVENT_PROCESS);

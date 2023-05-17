@@ -19,7 +19,8 @@ typedef enum{
     STATE_IDLE,
     STATE_PARSE,
     STATE_EXEC,
-    STATE_PARSE_ERROR
+    STATE_PARSE_ERROR,
+    STATE_EXEC_ERROR
 } State;
 
 /**
