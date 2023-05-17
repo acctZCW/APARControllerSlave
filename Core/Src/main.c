@@ -90,8 +90,8 @@ int main(void)
     fsmEventRegister(&g_fsm,recvHandler,STATE_IDLE,EVENT_PROCESS);
     fsmEventRegister(&g_fsm,parseHandler,STATE_PARSE,EVENT_PROCESS);
     fsmEventRegister(&g_fsm,execHandler,STATE_EXEC,EVENT_PROCESS);
-    fsmEventRegister(&g_fsm,parseErrorHandler,STATE_PARSE,EVENT_FAILED);
-    fsmEventRegister(&g_fsm,execErrorHandler,STATE_EXEC,EVENT_FAILED);
+    fsmEventRegister(&g_fsm,parseErrorHandler,STATE_PARSE_ERROR,EVENT_PROCESS);
+    fsmEventRegister(&g_fsm,execErrorHandler,STATE_EXEC_ERROR,EVENT_PROCESS);
 
     /* register fsm exec functions */
     registerExecFn(inputPE44820,INPUT_PE44820);
@@ -135,6 +135,12 @@ int main(void)
               fsmEventHandle(&g_fsm,EVENT_PROCESS);
               break;
           case STATE_EXEC:
+              fsmEventHandle(&g_fsm,EVENT_PROCESS);
+              break;
+          case STATE_PARSE_ERROR:
+              fsmEventHandle(&g_fsm, EVENT_PROCESS);
+              break;
+          case STATE_EXEC_ERROR:
               fsmEventHandle(&g_fsm,EVENT_PROCESS);
       }
   }

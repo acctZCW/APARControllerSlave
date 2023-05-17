@@ -24,7 +24,7 @@ u8 recvHandler(){
 }
 
 u8 parseHandler(){
-    if(parseFrame(g_recvBuffer,&g_frame)){
+    if(parseFrame(g_recvBuffer,&g_frame) == 1){
         // request for next frame.
         // code: 1
         memset(g_recvBuffer,0,BUFFER_SIZE);
@@ -38,10 +38,9 @@ u8 parseHandler(){
 }
 
 u8 execHandler(){
-    // How to dispatch commands to different functions?
-    // do this
+    // exec functions dispatcher
     ExecFn fn = execFns[g_frame.type];
-    if(fn(g_frame.content,g_frame.len)) {
+    if(fn(g_frame.content,g_frame.len) == 1) {
         HAL_UART_Transmit(&huart1,(u8*)2,1,100);
         return STATE_IDLE;
     }

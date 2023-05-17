@@ -28,9 +28,10 @@ int inputPE43703(const u8* command, u16 len){
 }
 
 int inputPE44820WithSpi(const u8* command, u16 len){
-    if(len/2 > PE43703_NUM || len%2 != 0) return 0;
+    if(len/2 > PE43703_NUM || len%2 != 0) return 2;
     u8 addr;
     u8 data;
+    int status_code = 0;
     for(int i = 0; i < len/2; i++){
         addr = command[2*i];
         data = command[2*i+1];
@@ -39,9 +40,9 @@ int inputPE44820WithSpi(const u8* command, u16 len){
 //        sprintf(send_str,"addr: %d, data: %d\n",addr, data);
 //        HAL_UART_Transmit(&huart1,send_str,20,100);
         /* test end. */
-        writePE44820WithSpi(hal_pe44820s[addr],data,addr);
+        status_code = writePE44820WithSpi(hal_pe44820s[addr],data,addr);
     }
-    return 1;
+    return status_code;
 }
 
 int inputPE43703WithSpi(const u8* command, u16 len){
