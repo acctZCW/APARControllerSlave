@@ -33,6 +33,20 @@ typedef enum{
 } Event;
 
 /**
+ * @brief exec status code
+ */
+typedef enum{
+    STATUS_OK = 1,
+    STATUS_PARSEOK = 2,
+    STATUS_EXECOK = 3,
+    STATUS_PARSEERROR = 128,
+    STATUS_EXECERROR,
+    STATUS_PARAMOUTOFBOUND,
+    STATUS_ADDROUTOFBOUND,
+    STATUS_VERIFIEDFAIL
+}StatusCode;
+
+/**
  * @brief Execution Functions Type Definition
  */
 typedef int (*ExecFn)(const u8* content, u16 len);

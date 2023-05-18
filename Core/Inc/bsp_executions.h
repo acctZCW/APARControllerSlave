@@ -19,6 +19,7 @@ typedef enum{
     INPUT_PE43703_SPI
 }FrameType;
 
+
 /**
  * parse the command and input data into pe44820
  * @param command command bytes

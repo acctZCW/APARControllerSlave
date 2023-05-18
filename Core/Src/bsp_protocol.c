@@ -10,7 +10,7 @@
 int parseFrame(const u8* frame_bytes, FrameTypeDef* frame){
     /* Parse the FrameTypeDef */
     u8 header[2] = "BI";
-    if(memcmp(frame_bytes,header,2)!=0) return 0;
+    if(memcmp(frame_bytes,header,2)!=0) return 0; // frame header is not correct.
     // get frame type.
     frame->type = *(frame_bytes + 2);
     frame->len = bytes_to_u16(frame_bytes + 3);
@@ -19,9 +19,9 @@ int parseFrame(const u8* frame_bytes, FrameTypeDef* frame){
     memcpy(frame->content, frame_bytes + 5, frame->len);
     frame->verified = *(frame_bytes + 5 + frame->len); // get verified code
     u8 crc_code = crc8_maxim(frame_bytes+2, frame->len + 3);
-    if(crc_code != frame->verified) return 0;
+    if(crc_code != frame->verified) return 0; // verified failed.
     u8 tail = 'T';
-    if(memcmp(frame_bytes+6+frame->len,&tail,1) != 0) return 0;
+    if(memcmp(frame_bytes+6+frame->len,&tail,1) != 0) return 0; // frame tail is not correct.
     return 1;
 }
 

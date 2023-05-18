@@ -24,15 +24,14 @@ u8 recvHandler(){
 }
 
 u8 parseHandler(){
-    if(parseFrame(g_recvBuffer,&g_frame) == 1){
-        // request for next frame.
-        // code: 1
-        memset(g_recvBuffer,0,BUFFER_SIZE);
+    int status_code = parseFrame(g_recvBuffer,&g_frame);
+    memset(g_recvBuffer,0,BUFFER_SIZE);
+    if(status_code == 1){
+
         HAL_UART_Receive_DMA(&huart1,g_recvBuffer,BUFFER_SIZE);
         HAL_UART_Transmit(&huart1,(u8*)1,1,100);
         return STATE_EXEC;
     } else{
-        memset(g_recvBuffer,0,BUFFER_SIZE);
         return STATE_PARSE_ERROR;
     }
 }
@@ -40,10 +39,12 @@ u8 parseHandler(){
 u8 execHandler(){
     // exec functions dispatcher
     ExecFn fn = execFns[g_frame.type];
-    if(fn(g_frame.content,g_frame.len) == 1) {
-        HAL_UART_Transmit(&huart1,(u8*)2,1,100);
+    int status_code = fn(g_frame.content, g_frame.len);
+    if(status_code == 1) {
+        HAL_UART_Transmit(&huart1,(u8*)STATUS_EXECOK,1,100);
         return STATE_IDLE;
     }
+    HAL_UART_Transmit(&huart1,(u8*)status_code,1,100);
     return STATE_EXEC_ERROR;
 }
 
@@ -51,7 +52,7 @@ u8 parseErrorHandler(){
     // request for resend.
     // code: 128
     HAL_UART_Receive_DMA(&huart1,g_recvBuffer,BUFFER_SIZE);
-    HAL_UART_Transmit(&huart1,(u8*)128,1,100);
+    HAL_UART_Transmit(&huart1,(u8*)STATUS_PARSEERROR,1,100);
     return STATE_IDLE;
 }
 

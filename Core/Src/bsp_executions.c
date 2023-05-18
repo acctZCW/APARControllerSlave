@@ -28,7 +28,8 @@ int inputPE43703(const u8* command, u16 len){
 }
 
 int inputPE44820WithSpi(const u8* command, u16 len){
-    if(len/2 > PE43703_NUM || len%2 != 0) return 2;
+    // code 131: addr out of bound
+    if(len/2 > PE43703_NUM || len%2 != 0) return 131;
     u8 addr;
     u8 data;
     int status_code = 0;
@@ -40,15 +41,18 @@ int inputPE44820WithSpi(const u8* command, u16 len){
 //        sprintf(send_str,"addr: %d, data: %d\n",addr, data);
 //        HAL_UART_Transmit(&huart1,send_str,20,100);
         /* test end. */
+        if(addr >= PE44820_NUM) return 131;
         status_code = writePE44820WithSpi(hal_pe44820s[addr],data,addr);
     }
     return status_code;
 }
 
 int inputPE43703WithSpi(const u8* command, u16 len){
-    if(len/2 > PE43703_NUM || len%2 != 0) return 0;
+    // code 131: addr out of bound
+    if(len/2 > PE43703_NUM || len%2 != 0) return 131;
     u8 addr;
     u8 data;
+    int status_code = 0;
     for(int i = 0; i < len/2; i++){
         addr = command[2*i];
         data = command[2*i+1];
@@ -57,7 +61,10 @@ int inputPE43703WithSpi(const u8* command, u16 len){
 //        sprintf(send_str,"addr: %d, data: %d\n",addr, data);
 //        HAL_UART_Transmit(&huart1,send_str,20,100);
         /* test end. */
-        writePE43703WithSpi(hal_pe43703s[addr],data,addr);
+        if(addr >= PE44820_NUM) return 131;
+        // code 130: param out of bound
+        if((data & 0x80) != 0) return 130;
+        status_code = writePE43703WithSpi(hal_pe43703s[addr],data,addr);
     }
     return 1;
 }
