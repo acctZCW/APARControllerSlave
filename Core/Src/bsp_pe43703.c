@@ -6,47 +6,46 @@
 
 PE43703TypeDef hal_pe43703s[PE43703_NUM] = {
         { // unit 1
-                GPIOB,14,
-                GPIOB,15,
-                GPIOB,12
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOB,GPIO_PIN_12
         },
         { // unit 2
-                GPIOB,14,
-                GPIOB,15,
-                GPIOB,13
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOB,GPIO_PIN_13
         },
         { // unit 3
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,14
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_14
         },
         { // unit 4
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,15
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_15
         },
         { // unit 5
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,12
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_12
         },
         { // unit 6
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,13
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_13
         },
         { // unit 7
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,10
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_10
         },
         { // unit 8
-                GPIOB,14,
-                GPIOB,15,
-                GPIOE,11
+                GPIOB,GPIO_PIN_14,
+                GPIOB,GPIO_PIN_15,
+                GPIOE,GPIO_PIN_11
         }
 };
-
 
 int writePE43703(PE43703TypeDef unit, uint8_t data){
     data = data&0x7F;
@@ -67,11 +66,6 @@ int writePE43703(PE43703TypeDef unit, uint8_t data){
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
     }
 
-    // write opt
-    HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
-    HAL_Delay_Us(5);
-    HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
 
     // write addr
     for(int i = 0; i< 3; i++){
@@ -103,10 +97,17 @@ int writePE43703WithSpi(PE43703TypeDef unit, uint8_t data, uint8_t addr){
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_SET);
         else
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_RESET);
+        HAL_Delay_Us(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
         HAL_Delay_Us(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
     }
+    // bit 7 must be low logic
+    HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_RESET);
+    HAL_Delay_Us(5);
+    HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
+    HAL_Delay_Us(5);
+    HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
 
     // write addr
     for(int i = 0; i< 3; i++){
@@ -115,6 +116,16 @@ int writePE43703WithSpi(PE43703TypeDef unit, uint8_t data, uint8_t addr){
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_SET);
         else
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_RESET);
+        HAL_Delay_Us(5);
+        HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
+        HAL_Delay_Us(5);
+        HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
+    }
+
+    // Q11 - Q15 for any logic, there be high
+    for(int i = 0; i < 5; i++){
+        HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_SET);
+        HAL_Delay_Us(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
         HAL_Delay_Us(5);
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
