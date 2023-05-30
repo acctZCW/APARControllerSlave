@@ -110,7 +110,7 @@ int writePE44820WithSpi(PE44820TypeDef unit, uint8_t data, uint8_t addr){
     }
 
     // write opt
-    HAL_GPIO_WritePin(unit.siPort, unit.siPin,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(unit.siPort, unit.siPin,GPIO_PIN_SET);
     HAL_Delay_Us(5);
     HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
     HAL_Delay_Us(5);
@@ -130,10 +130,12 @@ int writePE44820WithSpi(PE44820TypeDef unit, uint8_t data, uint8_t addr){
     }
 
 
-    // turn off
+    // latch enable and turn off
     HAL_GPIO_WritePin(unit.lePort,unit.lePin,GPIO_PIN_SET);
     HAL_Delay_Us(10);
     HAL_GPIO_WritePin(unit.lePort,unit.lePin,GPIO_PIN_RESET);
+
+    HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_RESET);
 
     return 1;
 }
