@@ -42,7 +42,8 @@ int inputPE44820WithSpi(const u8* command, u16 len){
 //        HAL_UART_Transmit(&huart1,send_str,20,100);
         /* test end. */
         if(addr >= PE44820_NUM) return 131;
-        status_code = writePE44820WithSpi(hal_pe44820s[addr],data,addr);
+        // change Multi-LE to SPI
+        status_code = writePE44820WithSpi(hal_pe44820spi,data,addr);
     }
     return status_code;
 }

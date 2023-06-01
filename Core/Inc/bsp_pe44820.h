@@ -20,6 +20,7 @@ typedef struct{
 } PE44820TypeDef;
 
 extern PE44820TypeDef hal_pe44820s[PE44820_NUM];
+extern PE44820TypeDef hal_pe44820spi;
 
 int writePE44820(PE44820TypeDef unit, uint8_t data);
 

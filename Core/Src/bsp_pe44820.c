@@ -4,6 +4,11 @@
 
 #include "bsp_pe44820.h"
 
+PE44820TypeDef hal_pe44820spi = {
+        GPIOB, GPIO_PIN_14,
+        GPIOB,GPIO_PIN_15,
+        GPIOB,GPIO_PIN_12
+};
 
 PE44820TypeDef hal_pe44820s[PE44820_NUM] = {
         { // unit 1
@@ -96,9 +101,12 @@ int writePE44820WithSpi(PE44820TypeDef unit, uint8_t data, uint8_t addr){
     HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
     HAL_GPIO_WritePin(unit.lePort,unit.lePin,GPIO_PIN_RESET);
     uint8_t w_data;
+    uint8_t w_opt;
     // write data into unit.
     for(int i = 0; i < 8; i++){
         w_data = (data >> i) & 1;
+        if(i == 6)
+            w_opt = w_data; // get opt
         if(w_data == 1)
             HAL_GPIO_WritePin(unit.siPort,unit.siPin,GPIO_PIN_SET);
         else
@@ -109,8 +117,11 @@ int writePE44820WithSpi(PE44820TypeDef unit, uint8_t data, uint8_t addr){
         HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_RESET);
     }
 
-    // write opt
-    HAL_GPIO_WritePin(unit.siPort, unit.siPin,GPIO_PIN_SET);
+    // write opt sync to 90deg bit.
+    if(w_opt == 1)
+        HAL_GPIO_WritePin(unit.siPort, unit.siPin,GPIO_PIN_SET);
+    else
+        HAL_GPIO_WritePin(unit.siPort, unit.siPin,GPIO_PIN_RESET);
     HAL_Delay_Us(5);
     HAL_GPIO_WritePin(unit.clkPort,unit.clkPin,GPIO_PIN_SET);
     HAL_Delay_Us(5);
